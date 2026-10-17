@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tik Tau, Mano Gražuole ❤️</title>
+    <style>
+        @import url('https://googleapis.com');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #020005;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Interaktyvus švytėjimas fone */
+        .cursor-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 71, 126, 0.12) 0%, rgba(181, 23, 158, 0.05) 50%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            left: -500px;
+            top: -500px;
+        }
+
+        /* Dalelių ir žiedlapių konteineris */
+        #particles-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            border-radius: 150px 0 150px 150px;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: fadeAndFall linear infinite;
+        }
+
+        @keyframes fadeAndFall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Prabangi stiklo kortelė – pilnai prisitaikanti */
+        .container {
+            background: rgba(10, 5, 18, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 40px 25px;
+            border-radius: 28px;
+            text-align: center;
+            max-width: 440px;
+            width: 100%;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
+            transition: all 0.5s ease;
+        }
+
+        /* Vaivorykštinis neoninis rėmelis */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 28px;
+            padding: 2px;
+            background: linear-gradient(var(--gradient-angle, 0deg), #ff477e, #b5179e, #7209b7, #ff477e);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: rotateGlow 6s linear infinite;
+        }
+
+        @property --gradient-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes rotateGlow {
+            0% { --gradient-angle: 0deg; }
+            100% { --gradient-angle: 360deg; }
+        }
+
+        .main-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            cursor: pointer;
+            filter: drop-shadow(0 0 15px rgba(255, 71, 126, 0.5));
+            animation: pulse 1.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.06); }
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(255, 71, 126, 0.3);
+        }
+
+        .message {
+            color: #d8d3e5;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, #ff477e, #b5179e);
+            color: white;
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 71, 126, 0.35);
+            width: 100%;
+            max-width: 280px;
+            transition: transform 0.2s;
+        }
+
+        .action-btn:active {
+            transform: scale(0.98);
+        }
+
+        .letter-box {
+            text-align: left;
+            background: rgba(4, 2, 8, 0.6);
+            padding: 25px 20px;
+            border-radius: 20px;
+            border-left: 4px solid #ff477e;
+            box-shadow: inset 0 2px 15px rgba(0,0,0,0.7);
+            color: #e6e2f3;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            min-height: 160px;
+            word-wrap: break-word;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #ff477e;
+            margin-left: 4px;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .hidden-content {
+            display: none;
+        }
+
+        /* Papildomi pritaikymai labai mažiems ekranams */
+        @media (max-width: 380px) {
+            h1 { font-size: 1.7rem; }
+            .message, .letter-box { font-size: 1rem; }
+            .main-icon { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-glow" id="glow"></div>
+    <div id="particles-container"></div>
+
+    <div class="container" id="mainCard">
+        <div id="startScreen">
+            <div class="main-icon" onclick="openLetter()">🔒</div>
+            <h1>Tau, Mano Princese...</h1>
+            <p class="message">Šis puslapis slepia šį tą ypatingo, sukurto tik pačiai gražiausiai merginai pasaulyje. Paspausk žemiau, kad atrakintum žinutę.</p>
+            <button class="action-btn" onclick="openLetter()">Atrakinti laišką ✨</button>
+        </div>
+
+        <div class="hidden-content" id="letterScreen">
+            <div class="main-icon" style="animation-duration: 0.6s;">💝</div>
+            <h1>Mano Mylimai...</h1>
+            <div class="letter-box">
+                <span id="typing-text"></span><span class="cursor" id="text-cursor">|</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Švytėjimo sekimas (pelė + pirštas)
+        const glow = document.getElementById('glow');
+        
+        window.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) {
+                glow.style.left = e.touches[0].clientX + 'px';
+                glow.style.top = e.touches[0].clientY + 'px';
+            }
+        });
+
+        // Žiedlapių generavimas
+        function createPetals() {
+            const container = document.getElementById('particles-container');
+            const count = window.innerWidth < 500 ? 15 : 25; // Mažiau žiedlapių telefonams, kad nestrigtų
+            for (let i = 0; i < count; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                const size = Math.random() * 12 + 8;
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                petal.style.animationDelay = (Math.random() * -10) + 's';
+                container.appendChild(petal);
+            }
+        }
+        createPetals();
+
+        // Teksto rašymas
+        const fullText = "Tu esi mano didžiausia laimė ir pats brangiausias žmogus pasaulyje. \n\nAčiū tau už tavo begalinę šilumą, už kiekvieną tavo šypseną, kuri akimirksniu praskaidrina net tamsiausią dieną, ir už tai, kad tiesiog esi mano gyvenime. Tu pati gražiausia, ir aš labai tave branginu! ❤️";
+        
+        let index = 0;
+        function typeWriter() {
+            const textContainer = document.getElementById('typing-text');
+            if (index < fullText.length) {
+                let char = fullText.charAt(index);
+                if (char === '\n') {
+                    textContainer.innerHTML += '<br>';
+                } else {
+                    textContainer.innerHTML += char;
+                }
+                index++;
+                setTimeout(typeWriter, 40);
+            } else {
+                document.getElementById('text-cursor').style.display = 'none';
+            }
+        }
+
+        function openLetter() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('letterScreen').style.display = 'block';
+            setTimeout(typeWriter, 200);
+            document.body.style.background = "linear-gradient(135deg, #030006 0%, #0f0219 50%, #030006 100%)";
+        }
+    </script>
+
+</body>
+</html>
